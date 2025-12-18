@@ -18,7 +18,7 @@ export function shuntingYardAlgorithm(input: string[]) {
     } else {
       while (
         stack.length &&
-        operatorPrecedence[stack.at(-1)!] >= operatorPrecedence[char]
+        Object.values(operatorPrecedence).length - 1 >=  Object.values(operatorPrecedence)[char]
       ) {
         queue.push(stack.pop()!);
       }
@@ -33,7 +33,7 @@ export function shuntingYardAlgorithm(input: string[]) {
 
   // Part: doing the actual calculation
   for (let i = 0; i < queue.length; i++) {
-    const char = queue[i];
+    const char:any = queue[i];
 
     const isNumber = !Number.isNaN(Number(char));
 
