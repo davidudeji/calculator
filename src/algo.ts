@@ -1,12 +1,15 @@
 const stack: string[] = [];
 let queue: (number | string)[] = [];
 let numStack: number[] = [];
-const operatorPrecedence = {
+type Operator = "+" | "-" | "*" | "/";
+
+const operatorPrecedence: Record<Operator, number> = {
   "+": 1,
   "-": 1,
   "*": 2,
   "/": 2,
 };
+
 
 export function shuntingYardAlgorithm(input: string[]) {
   for (let i = 0; i < input.length; i++) {
@@ -14,22 +17,21 @@ export function shuntingYardAlgorithm(input: string[]) {
     const isNumber = !Number.isNaN(Number(char));
 
     if (isNumber) {
-      queue.push(Number(char));
-    } else {
-      while (
-        stack.length &&
-        Object.values(operatorPrecedence).length - 1 >=  Object.values(operatorPrecedence)[char]
-      ) {
-        queue.push(stack.pop()!);
-      }
+  queue.push(Number(char));
+} else {
+  const currentOp = char as Operator;
 
-      stack.push(char);
-    }
-  }
-
-  while (stack.length) {
+  while (
+    stack.length &&
+    operatorPrecedence[stack[stack.length - 1] as Operator] >=
+      operatorPrecedence[currentOp]
+  ) {
     queue.push(stack.pop()!);
   }
+
+  stack.push(currentOp);
+}
+
 
   // Part: doing the actual calculation
   for (let i = 0; i < queue.length; i++) {
