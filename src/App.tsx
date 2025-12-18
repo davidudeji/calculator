@@ -60,7 +60,7 @@ function App() {
     const isDecimal = String(answer).indexOf(".") !== -1;
     const shouldFixToTen = isDecimal && String(answer).length > 10;
     const finalAnswer = shouldFixToTen
-      ? String(answer.toFixed(10))
+      ? String(answer?.toFixed(10))
       : String(answer);
 
     setInput(() => finalAnswer);
